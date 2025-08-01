@@ -1,0 +1,165 @@
+:root {
+  --color-brown: #6B4F29; /* deep brown */
+    --color-brown-dark: #2E2211
+    --color-accent: #111827;
+    --color-white: #fff;
+    --color-gray-light: #f6f8fa;
+    --color-gray-dark: #23272b;
+    --color-border: #ddd;
+    --color-success: #18a558;
+    --color-warning: #ec7d12;
+    --color-danger: #bc2222;
+    --color-text: #000000;
+    --color-muted: #818181;
+    --color-bg-card: #3e0b0b;
+    --color-bg-section: #172642;
+    --color-bg-hero: #183269;
+}
+
+/* Base */
+body {
+    background: var(--color-bg-section);
+    color: var(--color-text);
+    font-family: 'Inter', Arial, 'Segoe UI', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Sections */
+.bg-brand-primary { background: var(--color-brown); color: #c75757; }
+.bg-brand-primary-dark { background: var(--color-brown-dark); color: #a03e3e; }
+.bg-brand-accent { background: var(--color-accent); color: #521919; }
+.bg-bg-card { background: var(--color-bg-card); }
+.bg-bg-section { background: var(--color-bg-section); }
+.bg-bg-dark { background: var(--color-gray-dark); color: #983333; }
+
+.text-brand-primary { color: var(--color-brown); }
+.text-brand-accent { color: var(--color-accent); }
+.text-main { color: var(--color-text); }
+.text-muted { color: var(--color-muted); }
+
+.card, .dashboard-card, .stats-card {
+    background: var(--color-bg-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: 1rem;
+    box-shadow: 0 3px 12px rgba(44,34,18,0.09);
+    color: var(--color-text);
+    padding: 1.35rem 1.15rem;
+}
+
+/* Hero Section */
+.hero, .bg-hero {
+    background: var(--color-bg-hero);
+    color: #fff;
+}
+.hero h1, .hero h2, .hero h3, .hero h4 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5em;
+    text-shadow: 0 2px 12px rgba(20,30,46,0.2);
+}
+.hero p {
+    color: #e2e8f0; /* very light gray for subtitle */
+    font-size: 1.25rem;
+    max-width: 550px;
+    line-height: 1.6;
+}
+
+
+/* Buttons */
+a.btn, .btn, button {
+    background: var(--color-brown);
+    color: #222976;
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.8em 2em;
+    border: none;
+    transition: background 0.18s, box-shadow 0.16s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+a.btn:hover, .btn:hover, button:hover {
+    background: var(--color-brown-dark);
+}
+.btn-secondary {
+    background: #fff;
+    color: var(--color-brown);
+    border: 2px solid var(--color-brown);
+}
+.btn-secondary:hover {
+    background: var(--color-brown);
+    color: #fff;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Inputs & Focus */
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--color-brown);
+    border-color: var(--color-brown);
+    background: #f7f4ef;
+}
+::placeholder {
+    color: #b4aea7;
+    opacity: 0.88;
+}
+
+/* Alerts */
+.alert-success { background: #e7f8ef; border-left: 0.32rem solid var(--color-success); }
+.alert-danger  { background: #faeaea; border-left: 0.32rem solid var(--color-danger); }
+.alert-warning { background: #fff4e1; border-left: 0.32rem solid var(--color-warning); }
+.alert-info    { background: #e9f0fa; border-left: 0.32rem solid #2563eb; }
+
+/* Text Utilities */
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.5rem; }
+.text-shadow { text-shadow: 1px 1px 4px rgba(0,0,0,0.2); }
+
+/* Stats Card */
+.stats-card .text-2xl {
+    font-weight: 900;
+    font-size: 1.75rem;
+    letter-spacing: -0.015em;
+}
+
+/* Mobile Tweaks */
+@media (max-width: 640px) {
+    .card, .dashboard-card, .stats-card {
+        padding: 1.05rem 0.7rem;
+        font-size: 0.97rem;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1.05rem;
+    }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg-card: #23272b;
+        --color-bg-section: #18191A;
+        --color-text: #ebebeb;
+        --color-muted: #ababab;
+        --color-border: #393E46;
+    }
+    .card, .dashboard-card, .stats-card {
+        background: var(--color-bg-card);
+        color: var(--color-text);
+        border: 1.5px solid var(--color-border);
+    }
+}
+
+/* Print & Accessibility */
+@media print {
+    .no-print { display: none !important; }
+    .card-shadow, .card-shadow-lg { box-shadow: none !important; }
+}
+:focus:not(:focus-visible) { outline: none; }

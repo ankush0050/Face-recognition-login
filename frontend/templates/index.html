@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Employee Login System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-brand-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center text-white text-xl font-bold">
+                        <i class="fas fa-user-shield mr-3"></i>
+                        Face Recognition Login
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin" class="text-white hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded-md transition-colors nav-link">
+                        <i class="fas fa-cog mr-2"></i>Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-gray-700 to-slate-800 text-white py-24">
+
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="grid md:grid-cols-2 gap-12 items-center min-h-screen">
+                <div class="text-center md:text-left">
+                    <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6">
+                        Secure Face Recognition
+                        <span class="text-gray-200 block">Employee Login</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-100 leading-relaxed">
+                        Experience the future of workplace security with our advanced AI-powered face recognition system. 
+                        Fast, secure, and contactless employee authentication.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="/login" class="bg-white text-brand-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 btn-hover-scale transition-all shadow-lg">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Login with Face
+                        </a>
+                        <a href="/register" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-brown hover:text-brand-primary btn-hover-scale transition-all">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Register Employee
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="relative inline-block">
+                        <div class="w-64 h-64 mx-auto bg-white bg-opacity-10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user-circle text-9xl text-white opacity-90"></i>
+                            <div class="absolute inset-0 scanner-line"></div>
+                        </div>
+                        <p class="mt-6 text-gray-200">
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            Secure • Fast • Contactless
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Choose Our System?</h2>
+                <p class="text-xl text-gray-600">Advanced features for modern workplace security</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl card-shadow text-center stats-card">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-bolt text-3xl text-yellow-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Lightning Fast</h3>
+                    <p class="text-gray-600">Recognition in under 2 seconds with 99.5% accuracy</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl card-shadow text-center stats-card">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-lock text-3xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Highly Secure</h3>
+                    <p class="text-gray-600">Advanced encryption and secure face encoding storage</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl card-shadow text-center stats-card">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-chart-line text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Real-time Analytics</h3>
+                    <p class="text-gray-600">Complete login tracking and employee analytics</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">
+                &copy; 2024 Face Recognition Employee Login System. 
+                Built with <i class="fas fa-heart text-red-500"></i> using OpenCV & Flask
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

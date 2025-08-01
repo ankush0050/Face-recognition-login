@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Face Recognition Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-brand-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center text-white text-xl font-bold">
+                        <i class="fas fa-user-shield mr-3"></i>
+                        Face Recognition Login
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-white hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded-md transition-colors nav-link">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="/register" class="text-white hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded-md transition-colors nav-link">
+                        <i class="fas fa-user-plus mr-2"></i>Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapped in login-card for JS init -->
+    <div class="login-card">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="bg-white rounded-xl card-shadow-lg overflow-hidden">
+                <!-- Header -->
+                <div class="bg-brand-primary text-white px-8 py-6">
+                    <h1 class="text-3xl font-bold flex items-center">
+                        <i class="fas fa-camera mr-4"></i>
+                        Face Recognition Login
+                    </h1>
+                    <p class="text-gray-200 mt-2">Look at the camera to authenticate</p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Camera Section -->
+                        <div>
+                            <div class="text-center">
+                                <div class="relative inline-block">
+                                    <!-- Video Container -->
+                                    <div class="video-container bg-gray-900 rounded-xl overflow-hidden card-shadow">
+                                        <video id="video" autoplay muted playsinline class="w-full h-full object-cover bg-black"></video>
+                                        <canvas id="canvas" class="hidden"></canvas>
+                                        <!-- Face Detection Overlay -->
+                                        <div class="absolute inset-0 pointer-events-none">
+                                            <div class="face-outline absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-56 opacity-70"></div>
+                                        </div>
+                                        <!-- Camera Status -->
+                                        <div
+                                            id="cameraStatus"
+                                            class="camera-status absolute top-4 left-4 px-3 py-2 rounded-full text-white text-sm"
+                                        >
+                                            <i class="fas fa-camera-slash"></i>
+                                            <span>Camera not started</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Camera Controls -->
+                                <div class="mt-6 flex flex-wrap justify-center gap-4">
+                                    <button
+                                        id="startCamera"
+                                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold btn-hover-scale transition-all shadow-md"
+                                    >
+                                        <i class="fas fa-video mr-2"></i>
+                                        Start Camera
+                                    </button>
+                                    <button
+                                        id="captureBtn"
+                                        class="bg-brand-primary text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md hidden"
+                                    >
+                                        <i class="fas fa-camera mr-2"></i>
+                                        Capture &amp; Login
+                                    </button>
+                                    <button
+                                        id="retryBtn"
+                                        class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold btn-hover-scale transition-all shadow-md hidden"
+                                    >
+                                        <i class="fas fa-redo mr-2"></i>
+                                        Try Again
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Results Section -->
+                            <div id="result" class="mt-6"></div>
+
+                            <!-- Loading Animation -->
+                            <div id="loadingSection" class="mt-6 text-center hidden">
+                                <div class="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
+                                    <div class="spinner w-5 h-5 border-2 border-blue-300 border-t-blue-600 rounded-full mr-3"></div>
+                                    <span class="text-blue-800">Analyzing your face...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Instructions & Stats Section -->
+                        <div>
+                            <!-- Instructions -->
+                            <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                                <h3 class="text-lg font-semibold text-brand-primary mb-4 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Instructions
+                                </h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3 flex-shrink-0"></i>
+                                        Click "Start Camera" to begin
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3 flex-shrink-0"></i>
+                                        Position your face in the camera frame
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3 flex-shrink-0"></i>
+                                        Look directly at the camera
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3 flex-shrink-0"></i>
+                                        Ensure good lighting on your face
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3 flex-shrink-0"></i>
+                                        Click "Capture &amp; Login" when ready
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- System Statistics -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                <h3 class="text-lg font-semibold text-brand-primary mb-4 flex items-center">
+                                    <i class="fas fa-chart-bar mr-2"></i>
+                                    System Status
+                                </h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div class="text-center p-4 bg-green-50 rounded-lg stats-card">
+                                        <div
+                                            id="todayLogins"
+                                            class="text-2xl font-bold text-green-600 mb-1"
+                                        >
+                                            --
+                                        </div>
+                                        <div class="text-sm text-gray-600">Today's Logins</div>
+                                    </div>
+                                    <div class="text-center p-4 bg-blue-50 rounded-lg stats-card">
+                                        <div
+                                            id="totalEmployees"
+                                            class="text-2xl font-bold text-blue-600 mb-1"
+                                        >
+                                            --
+                                        </div>
+                                        <div class="text-sm text-gray-600">Total Employees</div>
+                                    </div>
+                                    <div
+                                        class="text-center p-4 bg-brand-primary bg-opacity-10 rounded-lg stats-card"
+                                    >
+                                        <div class="text-2xl font-bold text-brand-primary">99.5%</div>
+                                        <div class="text-sm text-gray-600">Recognition Accuracy</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security Features -->
+                            <div class="mt-6 bg-gray-800 text-white rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 flex items-center">
+                                    <i class="fas fa-shield-alt text-green-400 mr-2"></i>
+                                    Security Features
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-lock text-green-400 mr-2"></i>
+                                        Encrypted Face Data
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-eye text-green-400 mr-2"></i>
+                                        Live Detection
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-clock text-green-400 mr-2"></i>
+                                        Session Tracking
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-history text-green-400 mr-2"></i>
+                                        Login History
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/face_capture.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/stats")
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        document.getElementById("todayLogins").textContent =
+                            data.stats.today_logins || "0";
+                        document.getElementById("totalEmployees").textContent =
+                            data.stats.total_employees || "0";
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error loading stats:", error);
+                    document.getElementById("todayLogins").textContent = "0";
+                    document.getElementById("totalEmployees").textContent = "0";
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - Face Recognition System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-brand-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center text-white text-xl font-bold">
+                        <i class="fas fa-user-shield mr-3"></i>
+                        Employee Dashboard
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-white hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded-md transition-colors nav-link">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="/login" class="text-white hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded-md transition-colors nav-link">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Header -->
+    <div class="bg-gradient-to-r from-brand-primary to-brand-primary-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-circle text-4xl text-white"></i>
+                </div>
+                <h1 class="text-4xl font-bold mb-2">Welcome back, {{ employee.name }}!</h1>
+                <p class="text-xl text-gray-200">
+                    <i class="fas fa-building mr-2"></i>{{ employee.department }} Department
+                    <span class="mx-4">•</span>
+                    <i class="fas fa-id-badge mr-2"></i>ID: {{ employee.employee_id }}
+                </p>
+                <p class="text-gray-300 mt-2" id="loginTime">Just logged in</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Employee Information Card -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl card-shadow-lg p-8">
+                    <h2 class="text-2xl font-semibold text-brand-primary mb-6 flex items-center">
+                        <i class="fas fa-info-circle mr-3"></i>
+                        Your Information
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-100 pb-3">
+                                <label class="text-sm font-medium text-gray-500 uppercase tracking-wide">Employee ID</label>
+                                <p class="text-lg font-semibold text-gray-800">{{ employee.employee_id }}</p>
+                            </div>
+                            <div class="border-b border-gray-100 pb-3">
+                                <label class="text-sm font-medium text-gray-500 uppercase tracking-wide">Full Name</label>
+                                <p class="text-lg font-semibold text-gray-800">{{ employee.name }}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-100 pb-3">
+                                <label class="text-sm font-medium text-gray-500 uppercase tracking-wide">Email</label>
+                                <p class="text-lg font-semibold text-gray-800">{{ employee.email }}</p>
+                            </div>
+                            <div class="border-b border-gray-100 pb-3">
+                                <label class="text-sm font-medium text-gray-500 uppercase tracking-wide">Department</label>
+                                <p class="text-lg font-semibold text-gray-800">{{ employee.department }}</p>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <div class="border-b border-gray-100 pb-3">
+                                <label class="text-sm font-medium text-gray-500 uppercase tracking-wide">Status</label>
+                                <div class="mt-1">
+                                    {% if employee.is_active %}
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                            <i class="fas fa-check-circle mr-2"></i>Active
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                            <i class="fas fa-times-circle mr-2"></i>Inactive
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div>
+                <div class="bg-white rounded-xl card-shadow-lg p-8">
+                    <h2 class="text-2xl font-semibold text-brand-primary mb-6 flex items-center">
+                        <i class="fas fa-bolt mr-3"></i>
+                        Quick Actions
+                    </h2>
+                    <div class="space-y-4">
+                        <a href="/login" class="w-full bg-brand-primary hover:bg-brand-primary-dark text-white py-3 px-4 rounded-lg btn-hover-scale transition-all font-semibold text-center block">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            Logout & Login Again
+                        </a>
+                        <a href="/admin" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg btn-hover-scale transition-all font-semibold text-center block">
+                            <i class="fas fa-cog mr-3"></i>
+                            View Admin Panel
+                        </a>
+                        <button onclick="window.print()" class="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 px-4 rounded-lg btn-hover-scale transition-all font-semibold">
+                            <i class="fas fa-print mr-3"></i>
+                            Print Dashboard
+                        </button>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Today's Summary</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Login Time</span>
+                                <span class="font-semibold text-gray-800" id="loginTimeDisplay">Just now</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Session Status</span>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-circle mr-1 text-xs"></i>Active
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login History Section -->
+        <div class="mt-12">
+            <div class="bg-white rounded-xl card-shadow-lg p-8">
+                <h2 class="text-2xl font-semibold text-brand-primary mb-6 flex items-center">
+                    <i class="fas fa-history mr-3"></i>
+                    Recent Login History
+                </h2>
+                
+                {% if login_history and login_history|length > 0 %}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-calendar mr-2"></i>Date & Time
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-chart-line mr-2"></i>Confidence
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-globe mr-2"></i>IP Address
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-check-circle mr-2"></i>Status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for log in login_history[:10] %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        {{ log.login_time or 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if log.confidence_score and log.confidence_score > 0 %}
+                                            {% set confidence_percent = (log.confidence_score * 100)|int %}
+                                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                                <div class="bg-green-600 h-3 rounded-full progress-bar" 
+                                                     data-confidence="{{ confidence_percent }}"
+                                                     style="width: 0%;">
+                                                </div>
+                                            </div>
+                                            <span class="text-xs text-gray-600 mt-1 block">{{ confidence_percent }}%</span>
+                                        {% else %}
+                                            <span class="text-gray-400">N/A</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ log.ip_address or 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if log.success %}
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                <i class="fas fa-check mr-1"></i>Success
+                                            </span>
+                                        {% else %}
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                <i class="fas fa-times mr-1"></i>Failed
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-12">
+                        <i class="fas fa-history text-4xl text-gray-300 mb-4"></i>
+                        <h3 class="text-lg font-medium text-gray-600 mb-2">No login history available</h3>
+                        <p class="text-gray-500">This is your first successful login!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="mt-8">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-green-800">Login Successful!</h3>
+                        <p class="text-green-700 mt-1">
+                            You have successfully authenticated using face recognition. Your attendance has been recorded automatically.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">
+                &copy; 2024 Face Recognition Employee Login System. 
+                Secure • Fast • Contactless
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Update login time and animate progress bars
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const timeString = now.toLocaleString();
+            
+            // Update login time displays
+            const loginTimeElements = [
+                document.getElementById('loginTime'),
+                document.getElementById('loginTimeDisplay')
+            ];
+            
+            loginTimeElements.forEach(element => {
+                if (element) {
+                    element.textContent = `Logged in at ${timeString}`;
+                }
+            });
+            
+            // Animate progress bars
+            const progressBars = document.querySelectorAll('.progress-bar[data-confidence]');
+            progressBars.forEach(bar => {
+                const confidence = bar.getAttribute('data-confidence');
+                setTimeout(() => {
+                    bar.style.width = confidence + '%';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
